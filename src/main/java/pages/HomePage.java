@@ -17,6 +17,8 @@ public class HomePage extends BasePage{
     @FindBy(css = "a[href='/login']")
     WebElement btnLoginHeader;
 
+
+
     public void clickBtnLoginHeader(){
         btnLoginHeader.click();
     }
