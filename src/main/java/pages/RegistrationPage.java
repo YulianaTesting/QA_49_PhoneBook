@@ -32,6 +32,7 @@ public class RegistrationPage extends BasePage{
     }
 
     public boolean isLogoutButtonPresent(){
+
         return elementIsDisplayed(bntSignOut);
     }
 
