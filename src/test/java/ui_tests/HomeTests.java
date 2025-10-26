@@ -11,5 +11,6 @@ public class HomeTests extends ApplicationManager {
         System.out.println("first test");
         HomePage homePage = new HomePage(getDriver());
     }
+//  setup (BeforeMethod)  --> firstTest (Test) --> tearDown (AfterMethod)
 
 }

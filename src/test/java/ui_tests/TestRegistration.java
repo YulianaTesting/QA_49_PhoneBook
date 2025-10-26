@@ -8,7 +8,8 @@ import org.testng.annotations.Test;
 import pages.ContactsPage;
 import pages.HomePage;
 import pages.LoginPage;
-import static utils.UserFactory.*;
+
+import static utils.UserFactory.positiveUser;
 
 public class TestRegistration extends ApplicationManager {
 
@@ -19,11 +20,13 @@ public class TestRegistration extends ApplicationManager {
         new HomePage(getDriver()).clickBtnLoginHeader();
         loginPage = new LoginPage(getDriver());
     }
+
     @Test
     public void registrationPositiveTest(){
         User user = positiveUser();
         loginPage.typeRegForm(user);
-       // Assert.assertTrue(new ContactsPage(getDriver()).isTextNoContactsPresent("No Contacts here!"));
+        Assert.assertTrue(new ContactsPage(getDriver())
+                .isTextNoContactsPresent("No Contacts here!"));
     }
 
     @Test
@@ -31,8 +34,9 @@ public class TestRegistration extends ApplicationManager {
         User user = positiveUser();
         user.setUsername("wrong email");
         loginPage.typeRegForm(user);
-        Assert.assertTrue(loginPage.closeAlertReturnText().contains("Wrong email or password format"));
-
-
+        Assert.assertTrue(loginPage.closeAlertReturnText()
+                .contains("Wrong email or password format"));
     }
+
+
 }

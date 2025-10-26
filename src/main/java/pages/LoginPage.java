@@ -8,7 +8,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -48,9 +47,6 @@ public class LoginPage extends BasePage{
         btnLoginForm.click();
     }
 
-    public boolean isLogoutButtonPresent(){
-        return elementIsDisplayed(bntSignOut);
-    }
 
     public void typeLoginFormWithUserLombok(UserLombok userLombok){
         inputEmail.sendKeys(userLombok.getUsername());
@@ -66,11 +62,15 @@ public class LoginPage extends BasePage{
         return text;
     }
 
-
     public void typeRegForm(User user) {
         inputEmail.sendKeys(user.getUsername());
         inputPassword.sendKeys(user.getPassword());
         btnRegistrationForm.click();
-
     }
+
+    public boolean isLogoutButtonPresent(){
+        return elementIsDisplayed(bntSignOut);
+    }
+
+
 }
