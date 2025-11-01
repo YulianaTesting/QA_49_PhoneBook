@@ -7,6 +7,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.*;
 import utils.PropertiesReader;
+import utils.ContactFactory;
+import utils.HeaderMenuItem;
 
 import static pages.BasePage.*;
 import static utils.PropertiesReader.*;
@@ -22,14 +24,14 @@ public class AddNewContactTests extends ApplicationManager {
     public void login(){
         homePage = new HomePage(getDriver());
         loginPage = clickButtonHeader(HeaderMenuItem.LOGIN);
-      // loginPage.typeLoginForm("iluma@gmail.com", "Iluma!12345");
-        loginPage.typeLoginForm(getProperty("base.properties", "login"),
-                getProperty("base.properties", "password"));
+        loginPage.typeLoginForm("iluma@gmail.com", "Iluma!12345");
+       // loginPage.typeLoginForm(getProperty("ase.properties", "login"),
+         //       getProperty("base.properties", "password"));
         contactsPage = new ContactsPage(getDriver());
         numberOfContacts = contactsPage.getNumberOfContacts();
         addPage = clickButtonHeader(HeaderMenuItem.ADD);
-
     }
+
 
     @Test
     public void addNewContactPositive(){
@@ -42,8 +44,16 @@ public class AddNewContactTests extends ApplicationManager {
     public void addNewContactPositiveTestValidateList(){
         Contact contact = ContactFactory.positiveContact();
         addPage.typContactForm(contact);
-        //contactsPage.clickLastContact();
+        contactsPage.clickLastContact();
        Assert.assertTrue(contactsPage.isContactPresent(contact));
     }
 
+    @Test
+    public void addNewContactAndValidateByLastClick() {
+        Contact contact = ContactFactory.positiveContact();
+        addPage.typContactForm(contact);
+        contactsPage.clickLastContact();
+        Assert.assertTrue(contactsPage.isContactPresent(contact),
+                "The contact did not appear after adding and clicking on the last element!");
+    }
 }

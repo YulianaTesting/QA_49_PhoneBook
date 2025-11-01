@@ -16,6 +16,9 @@ public abstract class BasePage {
     public static void setDriver(WebDriver wd) {
         driver = wd;
     }
+    public WebDriver getDriver() {
+        return driver;
+    }
 
     public static <T extends BasePage> T clickButtonHeader(HeaderMenuItem item){
         WebElement element = new WebDriverWait(driver, Duration.ofSeconds(10))

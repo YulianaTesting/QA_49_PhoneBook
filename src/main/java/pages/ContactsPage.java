@@ -1,16 +1,22 @@
 package pages;
 
 import dto.Contact;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
-public class ContactsPage extends BasePage{
+import static java.sql.DriverManager.getDriver;
 
+public class ContactsPage extends BasePage{
 
 
     public ContactsPage(WebDriver driver){
@@ -25,6 +31,9 @@ public class ContactsPage extends BasePage{
 
     @FindBy(className = "contact-item_card__2SOIM")
     List<WebElement> contactsList;
+
+    @FindBy(xpath = "//div[@class='contact-page_leftdiv__yhyke']/div/div[last()]/h2")
+    WebElement lastElementList;
 
     public boolean isTextContactsPresent(String text){
         return isTextInElementPresent(btnContactsHeader, text);
@@ -53,4 +62,29 @@ public class ContactsPage extends BasePage{
         }
         return false;
     }
+  //  public void clickLastContact() {
+    //    lastElementList.click();
+    //}
+
+  public void clickLastContact() {
+      try {
+          WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+          List<WebElement> contacts = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
+                  By.cssSelector(".contact-item_card__2SOIM")));
+          if (contacts.isEmpty()) {
+              System.out.println("Contact not found!");
+              return;
+          }
+          WebElement lastContact = contacts.get(contacts.size() - 1);
+          Actions actions = new Actions(getDriver());
+          actions.moveToElement(lastContact).perform();
+          Thread.sleep(500);
+          lastContact.click();
+          System.out.println("Click on the last contact: " + lastContact.findElement(By.tagName("h2")).getText());
+      } catch (InterruptedException e) {
+          e.printStackTrace();
+      }
+  }
+
+
 }
