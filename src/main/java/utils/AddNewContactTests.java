@@ -2,9 +2,11 @@ package utils;
 
 import dto.Contact;
 import manager.ApplicationManager;
+import org.openqa.selenium.interactions.WheelInput;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import pages.*;
 import utils.PropertiesReader;
 import utils.ContactFactory;
@@ -14,6 +16,8 @@ import static pages.BasePage.*;
 import static utils.PropertiesReader.*;
 
 public class AddNewContactTests extends ApplicationManager {
+    SoftAssert softAssert = new SoftAssert();
+
     HomePage homePage;
     LoginPage loginPage;
     ContactsPage contactsPage;
@@ -56,4 +60,21 @@ public class AddNewContactTests extends ApplicationManager {
         Assert.assertTrue(contactsPage.isContactPresent(contact),
                 "The contact did not appear after adding and clicking on the last element!");
     }
+
+    @Test
+    public void addNewContactPositiveTest_ValidateElementSCROLL(){
+        Contact contact = ContactFactory.positiveContact();
+        addPage.typContactForm(contact);
+      contactsPage.scrollToLastElementList();
+      contactsPage.clickLastContact();
+       // contactsPage.scrollToLastElementListJS();
+        String text = contactsPage.getContactCartTest();
+        softAssert.assertTrue(text.contains(contact.getName()));
+        softAssert.assertTrue(text.contains(contact.getLastName()));
+        softAssert.assertTrue(text.contains(contact.getPhone()));
+        softAssert.assertTrue(text.contains(contact.getEmail()));
+        softAssert.assertTrue(text.contains(contact.getAddress()));
+        softAssert.assertAll();
+    }
+
 }
