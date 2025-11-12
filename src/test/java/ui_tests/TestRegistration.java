@@ -4,13 +4,17 @@ import dto.User;
 import manager.ApplicationManager;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.ContactsPage;
 import pages.HomePage;
 import pages.LoginPage;
+import utils.TestNGListener;
 
 import static utils.UserFactory.positiveUser;
 
+
+@Listeners(TestNGListener.class)
 public class TestRegistration extends ApplicationManager {
 
     LoginPage loginPage;
