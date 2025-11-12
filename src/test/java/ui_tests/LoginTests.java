@@ -15,10 +15,13 @@ import utils.RetryAnalyzer;
 import java.time.Duration;
 
 
+
+
 public class LoginTests extends ApplicationManager {
 
     @Test(retryAnalyzer = RetryAnalyzer.class)
     public void loginPositiveTest(){
+        logger.info("start test ");
         HomePage homePage = new HomePage(getDriver());
         homePage.clickBtnLoginHeader();
         LoginPage loginPage = new LoginPage(getDriver());

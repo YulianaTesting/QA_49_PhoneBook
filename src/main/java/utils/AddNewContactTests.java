@@ -28,9 +28,9 @@ public class AddNewContactTests extends ApplicationManager {
     public void login(){
         homePage = new HomePage(getDriver());
         loginPage = clickButtonHeader(HeaderMenuItem.LOGIN);
-        loginPage.typeLoginForm("iluma@gmail.com", "Iluma!12345");
-       // loginPage.typeLoginForm(getProperty("ase.properties", "login"),
-         //       getProperty("base.properties", "password"));
+      //  loginPage.typeLoginForm("iluma@gmail.com", "Iluma!12345");
+        loginPage.typeLoginForm(getProperty("base.properties", "username"),
+              getProperty("base.properties", "password"));
         contactsPage = new ContactsPage(getDriver());
         numberOfContacts = contactsPage.getNumberOfContacts();
         addPage = clickButtonHeader(HeaderMenuItem.ADD);

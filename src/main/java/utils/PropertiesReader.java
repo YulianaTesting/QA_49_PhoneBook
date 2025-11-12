@@ -8,8 +8,8 @@ import java.util.Properties;
 
 public class PropertiesReader {
     public static void main(String[] args) {
-        System.out.println(getProperty("base.properties", "login"));
-        System.out.println(getProperty("base.properties", "login"));
+        System.out.println(getProperty("base.properties", "username"));
+        //System.out.println(getProperty("base.properties", "login"));
     }
    public static String getProperty(String fileName, String key){
         Properties properties = new Properties();
