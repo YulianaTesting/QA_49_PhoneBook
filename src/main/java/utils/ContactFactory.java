@@ -11,7 +11,7 @@ public class ContactFactory {
 
     }
 
-    static Contact positiveContact(){
+    public static Contact positiveContact(){
         return Contact.builder()
                 .name(faker.name().firstName())
                 .lastName(faker.name().lastName())

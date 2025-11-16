@@ -1,10 +1,12 @@
 package utils;
 
+import data_providers.ContactDP;
 import dto.Contact;
 import manager.ApplicationManager;
 import org.openqa.selenium.interactions.WheelInput;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.*;
@@ -15,6 +17,8 @@ import utils.HeaderMenuItem;
 import static pages.BasePage.*;
 import static utils.PropertiesReader.*;
 
+
+@Listeners(TestNGListener.class)
 public class AddNewContactTests extends ApplicationManager {
     SoftAssert softAssert = new SoftAssert();
 
@@ -28,9 +32,9 @@ public class AddNewContactTests extends ApplicationManager {
     public void login(){
         homePage = new HomePage(getDriver());
         loginPage = clickButtonHeader(HeaderMenuItem.LOGIN);
-      //  loginPage.typeLoginForm("iluma@gmail.com", "Iluma!12345");
-        loginPage.typeLoginForm(getProperty("base.properties", "username"),
-              getProperty("base.properties", "password"));
+        loginPage.typeLoginForm("iluma@gmail.com", "Iluma!12345");
+      //  loginPage.typeLoginForm(getProperty("base.properties", "username"),
+        //      getProperty("base.properties", "password"));
         contactsPage = new ContactsPage(getDriver());
         numberOfContacts = contactsPage.getNumberOfContacts();
         addPage = clickButtonHeader(HeaderMenuItem.ADD);
@@ -44,12 +48,19 @@ public class AddNewContactTests extends ApplicationManager {
         Assert.assertEquals(numberOfContactsAfterAdd,numberOfContacts + 1);
     }
 
+    @Test(dataProvider = "dataProviderContactFile", dataProviderClass = ContactDP.class)
+    public void addNewContactPositiveTest_withDataProvider(Contact contact){
+        addPage.typContactForm(contact);
+        int numberOfContactsAfterAdd = contactsPage.getNumberOfContacts();
+        Assert.assertEquals(numberOfContactsAfterAdd, numberOfContacts + 1);
+    }
+
     @Test
     public void addNewContactPositiveTestValidateList(){
         Contact contact = ContactFactory.positiveContact();
         addPage.typContactForm(contact);
-        contactsPage.clickLastContact();
-       Assert.assertTrue(contactsPage.isContactPresent(contact));
+       // contactsPage.clickLastContact();
+       Assert.assertTrue(contactsPage.isContactPresent(contact),"message");
     }
 
     @Test
@@ -68,7 +79,7 @@ public class AddNewContactTests extends ApplicationManager {
       contactsPage.scrollToLastElementList();
       contactsPage.clickLastContact();
        // contactsPage.scrollToLastElementListJS();
-        String text = contactsPage.getContactCartTest();
+        String text = contactsPage.getContactCardTest();
         softAssert.assertTrue(text.contains(contact.getName()));
         softAssert.assertTrue(text.contains(contact.getLastName()));
         softAssert.assertTrue(text.contains(contact.getPhone()));
@@ -76,5 +87,31 @@ public class AddNewContactTests extends ApplicationManager {
         softAssert.assertTrue(text.contains(contact.getAddress()));
         softAssert.assertAll();
     }
+
+    @Test(dataProvider = "dataProviderContactFile", dataProviderClass = ContactDP.class)
+    public void addNewContactPositive_withDataProvider(Contact contact){
+        addPage.typContactForm(contact);
+        int numberOfContactsAfterAdd = contactsPage.getNumberOfContacts();
+        Assert.assertEquals(numberOfContactsAfterAdd,numberOfContacts + 1);
+    }
+
+    @Test
+    public void addNewContactPositiveTest_validateElementSCROLL1(){
+        Contact contact = ContactFactory.positiveContact();
+        addPage.typContactForm(contact);
+        contactsPage.scrollToLastElementList();
+        contactsPage.clickLastContact();
+        //contactsPage.scrollToLastElementListJS();
+        String text = contactsPage.getContactCardTest();
+        softAssert.assertTrue(text.contains(contact.getName()));
+        softAssert.assertTrue(text.contains(contact.getLastName()));
+        softAssert.assertTrue(text.contains("zzzzzzzzzzzzzzzzzzzzzzzzzzzz"),
+                "message contains Phone");
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
+        softAssert.assertTrue(text.contains(contact.getEmail()));
+        softAssert.assertTrue(text.contains(contact.getAddress()));
+        softAssert.assertAll();
+    }
+
 
 }

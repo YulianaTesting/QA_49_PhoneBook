@@ -25,8 +25,7 @@ public class TestNGListener implements ITestListener {
     public void onTestFailure(ITestResult result) {
         ITestListener.super.onTestFailure(result);
         logger.info("failed test --> " + result.getMethod());
-        logger.error("error test --> ");
-
+        logger.error("failed test error--> " + result.getMethod());
 
     }
 
@@ -56,7 +55,7 @@ public class TestNGListener implements ITestListener {
     @Override
     public void onFinish(ITestContext context) {
         ITestListener.super.onFinish(context);
-        logger.info("stop test --> " + context.getEndDate());
+        logger.info("stop test --> " + context.getEndDate()+"------------");
     }
 
 

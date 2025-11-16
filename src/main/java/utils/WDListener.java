@@ -18,6 +18,7 @@ public class WDListener implements WebDriverListener {
     public void onError(Object target, Method method, Object[] args, InvocationTargetException e) {
         WebDriverListener.super.onError(target, method, args, e);
         logger.error("created exception {}", e.toString());
+
     }
 
 
@@ -45,8 +46,13 @@ public class WDListener implements WebDriverListener {
     @Override
     public void afterClick(WebElement element) {
         WebDriverListener.super.afterClick(element);
-        logger.info("after click to element{}", element.getTagName());
+        try {
+            logger.info("after click to element {}", element.getTagName());
+        }catch (org.openqa.selenium.StaleElementReferenceException e){
+            e.printStackTrace();
+        }
     }
+
     @Override
     public void afterSendKeys(WebElement element, CharSequence... keysToSend) {
         WebDriverListener.super.afterSendKeys(element, keysToSend);
