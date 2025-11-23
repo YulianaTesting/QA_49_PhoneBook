@@ -7,13 +7,9 @@ import org.openqa.selenium.interactions.WheelInput;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.List;
 
-import static java.sql.DriverManager.getDriver;
 
 public class ContactsPage extends BasePage{
 
@@ -88,11 +84,13 @@ public class ContactsPage extends BasePage{
         }
         return false;
     }
-  //  public void clickLastContact() {
-    //    lastElementList.click();
-    //}
 
-  public void clickLastContact() {
+    public void clickLastContact() {
+        lastElementList.click();
+    }
+  
+
+ /* public void clickLastContact() {
       try {
           WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
           List<WebElement> contacts = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
@@ -110,8 +108,7 @@ public class ContactsPage extends BasePage{
       } catch (InterruptedException e) {
           e.printStackTrace();
       }
-  }
-
+  } */
     public void scrollToLastElementList() {
         Actions actions = new Actions(driver);
         //actions.scrollToElement(lastElementList).perform();  example 1

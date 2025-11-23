@@ -20,8 +20,6 @@ public class WDListener implements WebDriverListener {
         logger.error("created exception {}", e.toString());
 
     }
-
-
     @Override
     public void afterGet(WebDriver driver, String url) {
         WebDriverListener.super.afterGet(driver, url);
@@ -58,6 +56,4 @@ public class WDListener implements WebDriverListener {
         WebDriverListener.super.afterSendKeys(element, keysToSend);
         logger.info("use sendKeys to element {} type {}", element.getTagName(), keysToSend);
     }
-
-
 }

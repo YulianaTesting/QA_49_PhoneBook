@@ -4,6 +4,9 @@ import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.openqa.selenium.support.events.WebDriverListener;
 import org.slf4j.Logger;
@@ -20,17 +23,37 @@ import java.time.LocalTime;
 public class ApplicationManager {
 
     public final static Logger logger = LoggerFactory.getLogger(ApplicationManager.class);
-
+static String browser = System.getProperty("browser", "chrome");
     private WebDriver driver;
 
     public WebDriver getDriver() {
         return driver;
     }
 
-    @BeforeMethod
-    public void setup(){
-        logger.info("Start testing" + LocalDate.now()+ " : " + LocalTime.now());
-        driver = new ChromeDriver();
+    @BeforeMethod(alwaysRun = true)
+    public void setup() {
+        //driver = new ChromeDriver();
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless");
+        switch (browser.toLowerCase()){
+            case  "edge":
+                driver = new EdgeDriver();
+                logger.info("Start test in browser Edge");
+                break;
+            case "safari":
+                driver = new SafariDriver();
+                logger.info("Start test in browser Safari");
+                break;
+            case "chrome":
+                driver = new ChromeDriver(chromeOptions);
+                logger.info("Start test in browser Chrome");
+                break;
+            default:
+                driver = new ChromeDriver();
+                logger.info("Start test in browser Chrome");
+                break;
+        }
+
         driver.manage().window().maximize();
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
         //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -39,7 +62,7 @@ public class ApplicationManager {
 
     }
 
-    @AfterMethod(enabled = true)
+    @AfterMethod(enabled = true, alwaysRun = true)
     public void tearDown(){
         logger.info("Stop testing" + LocalDate.now()+ " : " + LocalTime.now());
         if(driver != null)

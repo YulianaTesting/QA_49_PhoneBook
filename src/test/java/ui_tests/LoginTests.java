@@ -3,8 +3,7 @@ package ui_tests;
 import dto.User;
 import dto.UserLombok;
 import manager.ApplicationManager;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -14,26 +13,22 @@ import pages.LoginPage;
 import utils.RetryAnalyzer;
 import utils.TestNGListener;
 
-import java.time.Duration;
-
-
 
 @Listeners(TestNGListener.class)
 public class LoginTests extends ApplicationManager {
 
-    @Test(retryAnalyzer = RetryAnalyzer.class)
+    @Test(groups = {"smoke", "user"}) //(retryAnalyzer = RetryAnalyzer.class)
     public void loginPositiveTest(){
         logger.info("start test ");
         HomePage homePage = new HomePage(getDriver());
         homePage.clickBtnLoginHeader();
         LoginPage loginPage = new LoginPage(getDriver());
         loginPage.typeLoginForm("a@mail.ru", "Password123!");
-        logger.error("Example error");
+        //logger.error("Example error");
         Assert.assertTrue(new ContactsPage(getDriver()).isTextContactsPresent("CONTACTS"));
-
     }
 
-    @Test
+    @Test(groups = "negative")
     public void loginNegativeTest_wrongPassword(){
         User user = new User("a@mail.ru", "password123!");
         HomePage homePage = new HomePage(getDriver());

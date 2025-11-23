@@ -1,18 +1,17 @@
-package utils;
+package ui_tests;
 
 import data_providers.ContactDP;
 import dto.Contact;
 import manager.ApplicationManager;
-import org.openqa.selenium.interactions.WheelInput;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.*;
-import utils.PropertiesReader;
 import utils.ContactFactory;
 import utils.HeaderMenuItem;
+import utils.TestNGListener;
 
 import static pages.BasePage.*;
 import static utils.PropertiesReader.*;
@@ -20,6 +19,7 @@ import static utils.PropertiesReader.*;
 
 @Listeners(TestNGListener.class)
 public class AddNewContactTests extends ApplicationManager {
+
     SoftAssert softAssert = new SoftAssert();
 
     HomePage homePage;
@@ -28,12 +28,12 @@ public class AddNewContactTests extends ApplicationManager {
     AddPage addPage;
     int numberOfContacts;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void login(){
         homePage = new HomePage(getDriver());
         loginPage = clickButtonHeader(HeaderMenuItem.LOGIN);
         loginPage.typeLoginForm("iluma@gmail.com", "Iluma!12345");
-      //  loginPage.typeLoginForm(getProperty("base.properties", "username"),
+       // loginPage.typeLoginForm(getProperty("base.properties", "username"),
         //      getProperty("base.properties", "password"));
         contactsPage = new ContactsPage(getDriver());
         numberOfContacts = contactsPage.getNumberOfContacts();
@@ -41,7 +41,7 @@ public class AddNewContactTests extends ApplicationManager {
     }
 
 
-    @Test
+    @Test(groups = {"smoke", "contact"})
     public void addNewContactPositive(){
         addPage.typContactForm(ContactFactory.positiveContact());
         int numberOfContactsAfterAdd = contactsPage.getNumberOfContacts();
@@ -72,7 +72,7 @@ public class AddNewContactTests extends ApplicationManager {
                 "The contact did not appear after adding and clicking on the last element!");
     }
 
-    @Test
+  /*  @Test
     public void addNewContactPositiveTest_ValidateElementSCROLL(){
         Contact contact = ContactFactory.positiveContact();
         addPage.typContactForm(contact);
@@ -93,9 +93,9 @@ public class AddNewContactTests extends ApplicationManager {
         addPage.typContactForm(contact);
         int numberOfContactsAfterAdd = contactsPage.getNumberOfContacts();
         Assert.assertEquals(numberOfContactsAfterAdd,numberOfContacts + 1);
-    }
+    } */
 
-    @Test
+    @Test(groups = "negative")
     public void addNewContactPositiveTest_validateElementSCROLL1(){
         Contact contact = ContactFactory.positiveContact();
         addPage.typContactForm(contact);

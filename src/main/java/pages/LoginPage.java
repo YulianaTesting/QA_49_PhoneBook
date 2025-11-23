@@ -38,6 +38,7 @@ public class LoginPage extends BasePage{
     public void typeLoginForm(String email, String password){
         inputEmail.sendKeys(email);
         inputPassword.sendKeys(password);
+        pause(2);
         btnLoginForm.click();
     }
 
@@ -69,7 +70,6 @@ public class LoginPage extends BasePage{
     }
 
     public boolean isLogoutButtonPresent(){
-
         return elementIsDisplayed(bntSignOut);
     }
 
